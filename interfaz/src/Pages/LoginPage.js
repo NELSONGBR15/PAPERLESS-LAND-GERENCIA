@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { NavLink } from "react-router-dom";
 
 import Imagenes from "../Images/Imagenes";
 import '../Styles/Login.css';
@@ -22,9 +23,9 @@ export default class Login extends Component{
                 </div>
             <br/>
 
-            <a href='#' className="button" >INGRESAR</a>
+            <NavLink to='/Admin' className="button" >INGRESAR</NavLink>
             <br/>
-            <a href="#">¿Olvido su contraseña?</a>
+            <NavLink to="/RecoveryPassword">¿Olvido su contraseña?</NavLink>
             </div>   
         )
     }
