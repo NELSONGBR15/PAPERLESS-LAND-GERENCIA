@@ -1,0 +1,19 @@
+header{   
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-size: 100%;
+    background-image: url('../Images/Header.png');
+
+}
+
+header .logo_palmera{  
+    float: left;
+    padding: 10px;
+}
+
+header .LogoPaper{
+    float: right;
+    padding: 20px;
+}
+
