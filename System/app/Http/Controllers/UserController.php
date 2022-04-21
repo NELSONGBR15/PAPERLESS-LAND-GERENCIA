@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    private $status_code    =        200;
+    private $status_code = 200;
 
     public function userSignUp(Request $request) {
         $validator = Validator::make($request->all(), [
@@ -26,7 +28,7 @@ class UserController extends Controller
         $apellido = "";
 
         if(isset($name[1])) {
-            $last_name = $name[1];
+            $apellido = $name[1];
         }
 
         $userDataArray = array(
@@ -79,7 +81,7 @@ class UserController extends Controller
         if(!is_null($email_status)) {
             $password_status = User::where("email", $request->email)->where("password", md5($request->password))->first();
 
-            // if password is correct
+            // si la contraseña es correcta
             if(!is_null($password_status)) {
                 $user = $this->userDetail($request->email);
 
