@@ -1,17 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import ColumnUsers from '../Components/ColumnUsers'
 
 export default function Admin(){
-
-    const navigate = useNavigate();
-
-    const handleClick= () =>{
-        navigate("/");
-    }
-
     return(
         <div>
-            Administrador
-            <button onClick={handleClick} >Salir</button>
+            <ColumnUsers />
         </div>        
     );
 
