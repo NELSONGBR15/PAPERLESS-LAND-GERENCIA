@@ -1,0 +1,100 @@
+.ColumnUsers{
+    font-family:Helvetica,Arial,Verdana,sans-serif;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 25%;
+    background-color: rgb(255, 255, 255);
+    font-size: 20px;
+    border-right:2px solid #003535;
+}
+.logo_user{
+    position: relative;
+    top: 5px;
+}
+.Nombre{
+    color: #003535;
+    font-family: Arial Black;
+    position: absolute;
+    left: 25%;
+    top: 1%;
+}
+.Cargo{
+    position: relative;
+    left: 5%;
+    font-size: 16px;
+    font-style: oblique;
+    font-family: Arial ;
+}
+
+.Line{
+    position: relative;
+    left: 5%;
+    width: 90%;
+    height: 2px;
+    background-color:#003535;
+}
+
+.Botones{
+    position: relative;
+    top: 5px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Button{
+    background-color: #003535;
+    position: relative;
+    top: 1%;
+    left: 4%;
+    border: none;
+    color: white;
+    padding: 9px;
+    width: 92%;
+    border-radius: 5px;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+}
+
+.Button:hover {
+    cursor: pointer;
+    background-color: white;
+    color: #003535;
+    border: 3px solid #003535;
+    /* cursor: grab; color: #4CAF50; box-shadow: 0 12px 16px 0 rgba(9, 70, 22, 0.24), 0 17px 50px 0 rgba(10, 117, 6, 0.411);*/
+}
+
+.Button--inicio{
+    top: 2px;
+}
+
+.Button--registro{
+    top: 8px;
+}
+
+.Button--user{
+    top: 14px;
+}
+
+.Button--out{
+    top: 20px;
+}
+
+.Fecha-Hora{
+    width: 92%;
+    font-family: Arial Black;
+    color: #003535;
+    font-size: 12px;
+    position: relative;
+    top: 6px;
+    left: 4%;
+    display: flex;
+    align-items: center;
+}
+
+.Hora{
+    position: absolute;
+    right: 0%;
+}
