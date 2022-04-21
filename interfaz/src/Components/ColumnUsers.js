@@ -15,6 +15,8 @@ export default function ColumnUsers(){
     const Hora = new Date();
     const HoraActual = Hora.getHours()+ ":"+ Hora.getMinutes() + ":" +  Hora.getSeconds();
 
+
+
     return(
         <div className="ColumnUsers">            
             <div className='logo_user'>   <img src={Imagenes.ImgUser } alt="Icono de usuario"  /> </div>                
@@ -33,13 +35,6 @@ export default function ColumnUsers(){
                 <div className="Fecha"> Fecha: {FechaActual}  </div>
                 <div className="Hora">Hora: {HoraActual}</div>
             </div>
-
         </div>  
     );
-
-
-
-
-
-
 }

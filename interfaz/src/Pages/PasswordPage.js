@@ -9,7 +9,7 @@ export default function PasswordPage(){
     return(
         <div>
             OLVIDE MI CONTRASEÑA
-            <button onClick={handleClick} >Go Back</button>
+            <button onClick={handleClick} >Go Back</button>           
         </div>        
     );
 
