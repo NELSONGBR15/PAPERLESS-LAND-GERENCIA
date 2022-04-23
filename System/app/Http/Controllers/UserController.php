@@ -42,17 +42,17 @@ class UserController extends Controller
         $user_status = User::where("email", $request->email)->first();
 
         if(!is_null($user_status)) {
-           return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! email already registered"]);
+           return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! correo electrónico ya registrado"]);
         }
 
         $user = User::create($userDataArray);
 
         if(!is_null($user)) {
-            return response()->json(["status" => $this->status_code, "success" => true, "message" => "Registration completed successfully", "data" => $user]);
+            return response()->json(["status" => $this->status_code, "success" => true, "message" => "Registro completado con éxito", "data" => $user]);
         }
 
         else {
-            return response()->json(["status" => "failed", "success" => false, "message" => "failed to register"]);
+            return response()->json(["status" => "failed", "success" => false, "message" => "Falló el registro"]);
         }
     }
 
@@ -85,16 +85,16 @@ class UserController extends Controller
             if(!is_null($password_status)) {
                 $user = $this->userDetail($request->email);
 
-                return response()->json(["status" => $this->status_code, "success" => true, "message" => "You have logged in successfully", "data" => $user]);
+                return response()->json(["status" => $this->status_code, "success" => true, "message" => "Ha iniciado la sesión con éxito", "data" => $user]);
             }
 
             else {
-                return response()->json(["status" => "failed", "success" => false, "message" => "Unable to login. Incorrect password."]);
+                return response()->json(["status" => "failed", "success" => false, "message" => "No se puede iniciar la sesión. Contraseña incorrecta."]);
             }
         }
 
         else {
-            return response()->json(["status" => "failed", "success" => false, "message" => "Unable to login. Email doesn't exist."]);
+            return response()->json(["status" => "failed", "success" => false, "message" => "No se puede iniciar sesión. El correo electrónico no existe."]);
         }
     }
 
