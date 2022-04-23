@@ -13,9 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        //CREAR TABLA ENFERMEDAD
         Schema::create('users', function (Blueprint $table) {
-           
             $table->id();
             $table->string('nombre')->nullable();
             $table->string('apellido')->nullable();
@@ -23,7 +21,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->nullable();
             $table->timestamps();
-            
         });
     }
 
