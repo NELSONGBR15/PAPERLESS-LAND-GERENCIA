@@ -37,7 +37,7 @@ class RolController extends Controller
        //
     }
 
-    public function update(Request $request, Rol $genero)
+    public function update(Request $request, Rol $rol)
     {
         $rol = Rol::findOrfail($request->id);
         $rol->nombre = $request->nombre;
