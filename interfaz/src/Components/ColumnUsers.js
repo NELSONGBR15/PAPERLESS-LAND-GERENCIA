@@ -7,15 +7,15 @@ export default function ColumnUsers(){
 
     const Nombre = "Nelson FABIAN BOCANEGRA RIVERA"
 
+    //Ruta de accion de boton
     const navigate = useNavigate();
     const handleClick = ( ) =>{navigate("/")}
 
+    //Variables para obtencion de Hora y fecha del sustema
     const fecha = new Date();
     const FechaActual = fecha.toLocaleDateString();
     const Hora = new Date();
     const HoraActual = Hora.getHours()+ ":"+ Hora.getMinutes() + ":" +  Hora.getSeconds();
-
-
 
     return(
         <div className="ColumnUsers">            
