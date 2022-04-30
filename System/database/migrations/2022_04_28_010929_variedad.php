@@ -10,7 +10,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('variedads', function (Blueprint $table) {
-            $table->id();
+            $table->engine="InnoDB";//BORRAR DATOS EN CASCADA
+            $table->bigIncrements('id');
             $table->string('nombre');
             $table->timestamps();
         });

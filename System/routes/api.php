@@ -5,6 +5,7 @@ use App\Http\Controllers\CargoController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\VariedadController;
 use App\Http\Controllers\FincaController;
+use App\Http\Controllers\UsuarioController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -58,5 +59,14 @@ Route:: controller(FincaController::class)->group(function () {
    Route::get('/show-finca/{id}','show');
    Route::put('/update-finca/{id}','update');
    Route::delete('/destroy-finca/{id}','destroy');
+
+});
+
+Route:: controller(UsuarioController::class)->group(function () {
+   Route::get('/index-usuario','index');
+   Route::post('/store-usuario','store');
+   Route::get('/show-usuario/{id}','show');
+   Route::put('/update-usuario/{id}','update');
+   Route::delete('/destroy-usuario/{id}','destroy');
 
 });
