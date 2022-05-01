@@ -6,67 +6,77 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\VariedadController;
 use App\Http\Controllers\FincaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\EnfermedadController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
 Route:: controller(UserController::class)->group(function () {
-   Route::post('/user-signup','userSignUp');
-   Route::post('/user-login','userLogin');
+   Route::post('/user/signup','userSignUp');
+   Route::post('/user/login','userLogin');
    Route::get('/user/{email}','userDetail');
 });
 
 Route:: controller(GeneroController::class)->group(function () {
-   Route::get('/index-genero','index');
-   Route::post('/store-genero','store');
-   Route::get('/show-genero/{id}','show');
-   Route::put('/update-genero/{id}','update');
-   Route::delete('/destroy-genero/{id}','destroy');
+   Route::get('/genero/index','index');
+   Route::post('/genero/store','store');
+   Route::get('/genero/show/{id}','show');
+   Route::put('/genero/update/{id}','update');
+   Route::delete('/genero/destroy/{id}','destroy');
 
 });
 
 Route:: controller(CargoController::class)->group(function () {
-   Route::get('/index-cargo','index');
-   Route::post('/store-cargo','store');
-   Route::get('/show-cargo/{id}','show');
-   Route::put('/update-cargo/{id}','update');
-   Route::delete('/destroy-cargo/{id}','destroy');
+   Route::get('/cargo/index','index');
+   Route::post('/cargo/store','store');
+   Route::get('/cargo/show/{id}','show');
+   Route::put('/cargo/update/{id}','update');
+   Route::delete('/cargo/destroy/{id}','destroy');
 
 });
 
 Route:: controller(RolController::class)->group(function () {
-   Route::get('/index-rol','index');
-   Route::post('/store-rol','store');
-   Route::get('/show-rol/{id}','show');
-   Route::put('/update-rol/{id}','update');
-   Route::delete('/destroy-rol/{id}','destroy');
+   Route::get('/rol/index','index');
+   Route::post('/rol/store','store');
+   Route::get('/rol/show/{id}','show');
+   Route::put('/rol/update/{id}','update');
+   Route::delete('/rol/destroy/{id}','destroy');
 
 });
 
 Route:: controller(VariedadController::class)->group(function () {
-   Route::get('/index-variedad','index');
-   Route::post('/store-variedad','store');
-   Route::get('/show-variedad/{id}','show');
-   Route::put('/update-variedad/{id}','update');
-   Route::delete('/destroy-variedad/{id}','destroy');
+   Route::get('/variedad/index','index');
+   Route::post('/variedad/store','store');
+   Route::get('/variedad/show/{id}','show');
+   Route::put('/variedad/update/{id}','update');
+   Route::delete('/variedad/destroy/{id}','destroy');
 
 });
 
 Route:: controller(FincaController::class)->group(function () {
-   Route::get('/index-finca','index');
-   Route::post('/store-finca','store');
-   Route::get('/show-finca/{id}','show');
-   Route::put('/update-finca/{id}','update');
-   Route::delete('/destroy-finca/{id}','destroy');
+   Route::get('/finca/index','index');
+   Route::post('/finca/store','store');
+   Route::get('/finca/show/{id}','show');
+   Route::put('/finca/update/{id}','update');
+   Route::delete('/finca/detroy/{id}','destroy');
 
 });
 
 Route:: controller(UsuarioController::class)->group(function () {
-   Route::get('/index-usuario','index');
-   Route::post('/store-usuario','store');
-   Route::get('/show-usuario/{id}','show');
-   Route::put('/update-usuario/{id}','update');
-   Route::delete('/destroy-usuario/{id}','destroy');
+   Route::get('/usuario/index','index');
+   Route::post('/usuario/store','store');
+   Route::get('/usuario/show/{id}','show');
+   Route::put('/usuario/update/{id}','update');
+   Route::delete('/usuario/destroy/{id}','destroy');
+
+});
+
+Route:: controller(EnfermedadController::class)->group(function () {
+   Route::get('/enfermedad/index','index');
+   Route::post('/enfermedad/store','store');
+   Route::get('/enfermedad/show/{id}','show');
+   Route::put('/enfermedad/update/{id}','update');
+   Route::delete('/enfermedad/destroy/{id}','destroy');
 
 });

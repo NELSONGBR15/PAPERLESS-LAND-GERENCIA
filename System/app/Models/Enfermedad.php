@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Finca extends Model
+class Enfermedad extends Model
 {
     static $rules = [
 		'nombre' => 'required',
@@ -15,6 +15,6 @@ class Finca extends Model
 
     public function lotes()
     {
-        return $this->hasMany('App\Models\Lote');
+        return $this->hasMany('App\Models\Registro');
     }
 }
