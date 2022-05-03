@@ -13,7 +13,7 @@ class Enfermedad extends Model
     protected $perPage = 20;
     protected $fillable = ['nombre'];
 
-    public function lotes()
+    public function registro()
     {
         return $this->hasMany('App\Models\Registro');
     }

@@ -7,6 +7,8 @@ use App\Http\Controllers\VariedadController;
 use App\Http\Controllers\FincaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\EnfermedadController;
+use App\Http\Controllers\LoteController;
+use App\Http\Controllers\RegistroController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -78,5 +80,23 @@ Route:: controller(EnfermedadController::class)->group(function () {
    Route::get('/enfermedad/show/{id}','show');
    Route::put('/enfermedad/update/{id}','update');
    Route::delete('/enfermedad/destroy/{id}','destroy');
+
+});
+
+Route:: controller(LoteController::class)->group(function () {
+   Route::get('/lote/index','index');
+   Route::post('/lote/store','store');
+   Route::get('/lote/show/{id}','show');
+   Route::put('/lote/update/{id}','update');
+   Route::delete('/lote/destroy/{id}','destroy');
+
+});
+
+Route:: controller(RegistroController::class)->group(function () {
+   Route::get('/registro/index','index');
+   Route::post('/registro/store','store');
+   Route::get('/registro/show/{id}','show');
+   Route::put('/registro/update/{id}','update');
+   Route::delete('/registro/destroy/{id}','destroy');
 
 });
