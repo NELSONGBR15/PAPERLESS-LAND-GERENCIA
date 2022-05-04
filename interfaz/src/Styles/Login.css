@@ -11,22 +11,22 @@
 .Linea{   
     position: absolute;
     left: calc(50% - 350px);
-    top: 40px;
+    top: -30px;
     width: 700px;
     height: 10px;  
     background-color: #003535;
 }
 .Linea--Abajo{
-    top: -50px;
+    top: 43px;
 }
 
 .textInicio{
+    font-size: 50px;
     position: absolute;
     left: calc(50% - 350px);
     width: 700px;
-    top: -80px;
+    top: -65px;
     color: rgb(0, 53, 53);
-
     -webkit-transition-duration: 0.4s; 
     transition-duration: 0.4s;
 }
@@ -126,8 +126,6 @@ a:hover, a:focus {
 .Emergente{
     position: relative;
     font-size: 20px;
-    color: rgb(159, 167, 157);
-    left: calc(40% );
-    top: -104px;
-    width: 20%;
+    color: rgb(255, 0, 0);
+    top: 15px;
 }

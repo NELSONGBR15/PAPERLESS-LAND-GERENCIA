@@ -1,91 +1,120 @@
 import { Link, NavLink } from "react-router-dom";
-import { useState } from "react";
-import AuthUsers from "../Components/AuthUsers";
 import { useNavigate } from "react-router-dom";
+import { useRef, useEffect, useState, useContext } from "react";
+import AuthContext from "../Context/AuthProvider"
 
 import Imagenes from "../Images/Imagenes";
 import '../Styles/Login.css';
 
-export default function Login (){
-    //Estado para mensage emergente
-    let [message, setmessage] = useState("");
+import axios from "../Api/axios";
 
-    //Asignacion de variable para accion ruta del boton
+export default function Login() {
+    const {setAuth} = useContext(AuthContext);
+    const userRef = useRef();
+    const errRef = useRef();
+
+    const [user, setUser] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+    const [success, setSucess] = useState(false);
+
     const navigate = useNavigate();
 
-    //Hook para campos de texto y llamado varible de axios
-    const {http } = AuthUsers();
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [list, setList] = useState([]);
+    useEffect(() => {
+        userRef.current.focus();
+    }, [])
 
+    useEffect(() => {
+        setErrMsg('')
+    }, [user, pwd])
 
-    //Validacion de campos de texto para email y password
-    function validar(){
-        let campoEmail = document.getElementById("email").value;
-        let campopwd = document.getElementById("pwd").value;
-        if(campoEmail.length === 0 || campopwd.length === 0){
-            return false
-        }return true;
-    }
+    const handleSumit = async (e) => {
+        e.preventDefault();
 
-    //Funcion para eventos de boton
-    const sumitFrom = () =>{
-        //api call
-        http.post('/',{email:email,password:password}).then((res)=>{  
-            if(res.data.success === true){
-                console.log(res.data);
-                console.log(res.data.success); 
-                setList(res.data.data);
+        try{
+            const response = await axios.post('/login',{email:user,password:pwd},
+                JSON.stringify({user, pwd}),
+                {
+                    headers: { 'Content-type' : 'application/json'},
+                    withCredentials: true
+                }) 
+
+            if(response.data.success === true){
+                localStorage.setItem("userData", JSON.stringify(response.data.data))
+                console.log(response.data);  
+                setAuth({user, pwd})
+                setUser('');
+                setPwd('');
+                setSucess(true);
                 navigate('/Admin');
-                console.warn(list.nombre);
-            }else if( validar() === false){
-                setmessage("Debe rellenar todos los campos"); 
-                console.log("Debe rellenar todos los campos");
             }else{
-                setmessage("Contraseña o correo incorrecto"); 
-                console.log("Contraseña o correo incorrecto");
+                setErrMsg('Contraseña o correo incorrectos'); 
             }
-        }).catch(
-            (err)=>{
-                console.log(err);
-            }
-        )
+
+        }catch(err){
+            console.log(err);
+        }
     }
 
-    return(
-        <div className="contenedor">
-        <div className="Linea" ></div>
-        <h1 className="textInicio" >INCIO DE SESION</h1>
-        <div className="Linea Linea--Abajo" ></div>
-        <div className="campoUser">
-            <div className='Icon_user'>   <img src={Imagenes.IconUser } alt="Icono de usuario"  />  </div>
-            <input 
-                id="email"  
-                type="email"
-                className="Campotext" 
-                placeholder="Escriba su email"
-                onChange={e=>setEmail(e.target.value)}
-            />           
-            </div>
-        <br/>
-        <div className="campoUser campoUser--config">
-        <div className='Icon_user'>   <img src={Imagenes.IconClave } alt="Icono de clave"  />  </div>
-            <input 
-                id="pwd"
-                type={"password"}
-                className=" Campotext"
-                placeholder="Escriba su contraseña"
-                onChange={e => setPassword(e.target.value)}
-            />
-            </div>
-        <br/>
-        <button onClick={() => {sumitFrom()}} className="button button--login" >INGRESAR</button>
-        <br/>
-        <NavLink to="/RecoveryPassword">¿Olvido su contraseña?</NavLink>
-        <br/>
-        <div className="Emergente" id="idemergente">{message}</div>
-        </div>   
+
+    return (
+        <>
+            {success ? (
+                <section>
+                    <h1>Eres bienvenido</h1>
+                    <br />
+                    <a href="/" >Go to home</a>
+                </section>
+            ) : (
+                
+                <section className="contenedor" >
+
+                    <div className="Linea" ></div>
+                    <h1 className="textInicio" >INCIO DE SESION</h1>
+                    <div className="Linea Linea--Abajo" ></div>
+
+
+                    <form onSubmit={handleSumit}>
+                        <div className="campoUser">
+                            <div className='Icon_user'>   <img src={Imagenes.IconUser} alt="Icono de usuario" />  </div>
+                            <input type="email"
+                                id="username"
+                                className="Campotext"
+                                placeholder="Escriba su email"
+                                ref={userRef}
+                                autoComplete="off"
+                                onChange={(e) => setUser(e.target.value)}
+                                value={user}
+                                required
+                            />
+                        </div>
+
+                        <div className="campoUser campoUser--config">
+                            <div className='Icon_user'>   <img src={Imagenes.IconClave } alt="Icono de clave"  />  </div>
+                            <input type="password"
+                                id="password"
+                                className=" Campotext"
+                                placeholder="Escriba su contraseña"
+                                ref={userRef}
+                                onChange={(e) => setPwd(e.target.value)}
+                                value={pwd}
+                                required
+                            />
+                        </div>
+
+                        <button className="button button--login" >INGRESAR</button>
+                        <p>
+                            <span className="line">
+                                { }
+                                <NavLink to="/RecoveryPassword">¿Olvido su contraseña?</NavLink>
+                            </span>
+                        </p>
+                        <br/>
+                        <div className="Emergente" id="idemergente">{errMsg}</div>               
+                    </form>
+                </section>
+            )}
+        </>
     )
 
 }

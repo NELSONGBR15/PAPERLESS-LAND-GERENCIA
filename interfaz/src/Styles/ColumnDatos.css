@@ -1,5 +1,11 @@
 .ColumnDatos{
+    
+    font-size: 18px;
     position: absolute;
-    left: 25%;
-    background-color: rgb(42, 165, 73);
+    left: 26%;
+    background-color: rgb(255, 255, 255);
 }
+.ColumnDatos--bold{
+    font-weight: bold;
+}
+

@@ -1,15 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+
 import Imagenes from "../Images/Imagenes";
 import '../Styles/ColumnUsers.css'
 
 export default function ColumnUsers(){
+    const user = JSON.parse(localStorage.getItem("userData"));
+    const [nombres, setNombres] = useState();
 
-    const Nombre = "Nelson FABIAN BOCANEGRA RIVERA"
-
+    const Nombre_completo = user.nombre + ' ' + user.apellido;    
     //Ruta de accion de boton
     const navigate = useNavigate();
-    const handleClick = ( ) =>{navigate("/")}
+    const handleClick = ( ) =>{
+        navigate("/")
+        localStorage.clear();
+        setNombres();
+        }
+
+    const ClickInicio = () => { navigate("/Admin") };     
+    const ClickRegistro = () => { navigate("/Admin/Registros") }; 
+    const ClickUsuarios = () => { navigate("/Admin/Usuarios") };    
 
     //Variables para obtencion de Hora y fecha del sustema
     const fecha = new Date();
@@ -20,14 +31,15 @@ export default function ColumnUsers(){
     return(
         <div className="ColumnUsers">            
             <div className='logo_user'>   <img src={Imagenes.ImgUser } alt="Icono de usuario"  /> </div>                
-            <div  className="Nombre"> {Nombre} </div>
+            <div  className="Nombre"> {Nombre_completo.toUpperCase()} </div>
             <div className="Cargo">Cargo: Administrador</div>
             <div className="Line"></div>
             <div className="Botones">
-                <button className="Button Button--inicio">INICIO</button> 
-                <button className="Button Button--registro ">REGISTROS</button> 
-                <button className="Button Button--user " onClick={<Link  to={'/'}  className="Button"  ></Link>} >USUARIOS</button> 
+                <button className="Button Button--inicio" onClick={ClickInicio}>INICIO</button> 
+                <button className="Button Button--registro " onClick={ClickRegistro}>REGISTROS</button> 
+                <button className="Button Button--user " onClick={ClickUsuarios} >USUARIOS</button> 
                 <button className="Button Button--out " onClick={handleClick}  >SALIR</button>
+
                 <div></div>
             </div>
 
