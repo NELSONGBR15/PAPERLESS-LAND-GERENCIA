@@ -1,11 +1,18 @@
-.ColumnDatos{
-    
+.ColumnDatos{  
     font-size: 18px;
     position: absolute;
     left: 26%;
+    width: 74%;
     background-color: rgb(255, 255, 255);
 }
 .ColumnDatos--bold{
     font-weight: bold;
+}
+
+.Titulo{   
+    text-align: center;
+    font-family: Arial Black;
+    font-size: 30px;
+    color: #003535;
 }
 

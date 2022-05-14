@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useRef, useEffect, useState, useContext } from "react";
 import AuthContext from "../Context/AuthProvider"
@@ -11,7 +11,6 @@ import axios from "../Api/axios";
 export default function Login() {
     const {setAuth} = useContext(AuthContext);
     const userRef = useRef();
-    const errRef = useRef();
 
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
@@ -32,7 +31,7 @@ export default function Login() {
         e.preventDefault();
 
         try{
-            const response = await axios.post('/login',{email:user,password:pwd},
+            const response = await axios.post('/user/login',{email:user,password:pwd},
                 JSON.stringify({user, pwd}),
                 {
                     headers: { 'Content-type' : 'application/json'},

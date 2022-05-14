@@ -3,6 +3,7 @@ import '../Styles/ColumnDatos.css'
 export default function ColumnDatos(){
 
     const user = JSON.parse(localStorage.getItem("userData"));
+    
     const Nombre_completo = user.nombre + ' ' + user.apellido; 
 
     return(
@@ -14,7 +15,7 @@ export default function ColumnDatos(){
                 <div>Cel: {user.phone}</div>   
                 <br/>
                 <div className="">Ahora puedes gestionar la informacion de los trabajadores desde cualquier lugar y cualquier hora,
-                                gracias al sistema de PAPERLESSLAND de Palmeras del LLano</div>            
+                                gracias al sistema de PAPERLESSLAND de Palmeras del LLano.</div>            
             </div>
         </div>        
     );
