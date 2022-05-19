@@ -16,3 +16,22 @@
     color: #003535;
 }
 
+.AgregarBTN{
+    background-color: #003535;
+    position: relative;
+    top: 1%;
+    left: 4%;
+    border: none;
+    color: white;
+    padding: 9px;
+    width: 92%;
+    border-radius: 5px;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+}
+.AgregarBTN:hover {
+    cursor: pointer;
+    background-color: white;
+    color: #003535;
+    border: 3px solid #003535;
+}

@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, TextField } from '@material-ui/core'
 import { Edit, Delete } from '@material-ui/icons'
 
+//ESTILO PARA MODAL
 const useStyles = makeStyles((theme) => ({
     modal: {
         position: 'absolute',
@@ -29,10 +30,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ColumnUsuarios() {
     const styles = useStyles();
+    //HOOKS
     const [data, setData] = useState([]);
     const [modalInsertar, setModalInsertar] = useState(false);
+    const [modalEditar, setModalEditar] = useState(false);
+    const [modalEliminar, setModalEliminar] = useState(false);
 
     const [consolaSeleccionada, setConsolaSeleccionada] = useState({
+        id:'',
         nombre: '',
         generos_id: '',
         fecha_nacimiento: '',
@@ -47,38 +52,74 @@ export default function ColumnUsuarios() {
             ...prevState,
             [name]: value
         }))
-        console.log(consolaSeleccionada);
     }
 
-
+//FUNCIONES PETICIONES AXIOS
     const peticioneGet = async () => {
         axios.get('/usuario/index')
             .then(response => {
                 setData(response.data);
             })
     }
+    useEffect(async () => {
+        await peticioneGet();
+    }, []) 
 
-    const peticionPost = async () =>{
+    const peticionPost = async () => {
         await axios.post('/usuario/store', consolaSeleccionada)
-        .then(response =>{
-            setData(data.concat(response.data))
-            abrirCerrarModalInsertar()
-        })
+            .then(response => {
+                setData(data.concat(response.data))
+                abrirCerrarModalInsertar()
+            })
     }
 
+    const peticionPut = async () => {
+        await axios.put('/usuario/update/{id}' + consolaSeleccionada.id, consolaSeleccionada)
+            .then(response => {
+                var dataNueva = data;
+                dataNueva.map(consola => {
+                    if (consolaSeleccionada.id === consola.id) {
+                        consola.nombre = consolaSeleccionada.nombre;
+                        consola.generos_id = consolaSeleccionada.generos_id;
+                        consola.fecha_nacimiento = consolaSeleccionada.fecha_nacimiento;
+                        consola.cargos_id = consolaSeleccionada.cargos_id;
+                        consola.fecha_ingreso = consolaSeleccionada.fecha_ingreso;
+                        consola.rols_id = consolaSeleccionada.rols_id;
+                    }
+                })
+                setData(dataNueva);
+                abrirCerrarModalEditar();
+            })
+    }
 
+    const peticionDelete = async () => {
+        await axios.delete('/usuario/destroy/{id}' + consolaSeleccionada.id)
+            .then(response => {
+                setData(data.filter(consola => consola.id !== consolaSeleccionada.id));
+                abrirCerrarModalEliminar();
+            })
+    }
+
+//FUNCIONES PARA ABRIR Y CERRAR VENTANA    
     const abrirCerrarModalInsertar = () => {
         setModalInsertar(!modalInsertar);
     }
+    const abrirCerrarModalEditar = () => {
+        setModalEditar(!modalEditar);
+    }
+    const abrirCerrarModalEliminar = () => {
+        setModalEliminar(!modalEliminar);
+    }
+    const seleccionarConsola = (consola, caso) => {
+        setConsolaSeleccionada(consola);
+        (caso === 'Editar') ? abrirCerrarModalEditar() : abrirCerrarModalEliminar()
+    }
 
-    useEffect(async () => {
-        await peticioneGet();
-    }, [])
-
+//VENTANAS EMERGENTES
     const bodyInsertar = (
         <div className={styles.modal}>
-            <h3>Agregar Usuario</h3>
-            <TextField  name='nombre' className={styles.inputMaterial} label="Nombre" onChange={handleChange} />
+            <h3>AGREGAR USUARIO</h3> 
+            <TextField name='nombre' className={styles.inputMaterial} label="Nombre" onChange={handleChange} />
             <br />
             <TextField name='generos_id' className={styles.inputMaterial} label="Genero" onChange={handleChange} />
             <br />
@@ -91,11 +132,43 @@ export default function ColumnUsuarios() {
             <TextField name='rols_id' className={styles.inputMaterial} label="Rol" onChange={handleChange} />
             <br /><br />
             <div align="right">
-                <Button color="primary" onClick={peticionPost} >Insertar</Button>
-                <Button onClick={abrirCerrarModalInsertar} > Cancelar</Button>
+                <Button color="primary" onClick={() => peticionPost()} >Insertar</Button>
+                <Button onClick={() => abrirCerrarModalInsertar()} > Cancelar</Button>
             </div>
         </div>
     )
+    const bodyEditar = (
+        <div className={styles.modal}>
+            <h3>Editar Usuario</h3>
+            <TextField name='nombre' className={styles.inputMaterial} label="Nombre" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.nombre} />
+            <br />
+            <TextField name='generos_id' className={styles.inputMaterial} label="Genero" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.generos_id} />
+            <br />
+            <TextField name='fecha_nacimiento' className={styles.inputMaterial} label="Fecha de nacimiento" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.fecha_nacimiento} />
+            <br />
+            <TextField name='cargos_id' className={styles.inputMaterial} label="cargo" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.cargos_id} />
+            <br />
+            <TextField name='fecha_ingreso' className={styles.inputMaterial} label="Fecha ingreso" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.fecha_ingreso} />
+            <br />
+            <TextField name='rols_id' className={styles.inputMaterial} label="Rol" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.rols_id} />
+            <br /><br />
+            <div align="right">
+                <Button color="primary" onClick={() => peticionPut()} >Editar</Button>
+                <Button onClick={() => abrirCerrarModalEditar()} > Cancelar</Button>
+            </div>
+        </div>
+    )
+    const bodyEliminar = (
+        <div className={styles.modal}>
+            <p>Estas seguro que deseas eliminar este usuario  <b>{consolaSeleccionada && consolaSeleccionada.nombre}</b> ?</p>
+            <div align="right">
+                <Button color="secondary" onClick={() => peticionDelete()} >si</Button>
+                <Button onClick={() => abrirCerrarModalEliminar()} > No</Button>
+            </div>
+        </div>
+    )
+
+//RETORNO 
     return (
         <div>
             <ColumnUsers />
@@ -103,8 +176,8 @@ export default function ColumnUsuarios() {
                 <div>
                     <div className='Titulo'>USUARIOS</div>
                     <div>
-                        <Button onClick={abrirCerrarModalInsertar}  >INSERTAR</Button>
-                    </div> <br />
+                        <button  className='AgregarBTN' onClick={() => abrirCerrarModalInsertar() }  >AGREGAR</button>
+                    </div>
                     <TableContainer>
                         <Table>
                             <TableHead>
@@ -131,9 +204,9 @@ export default function ColumnUsuarios() {
                                         <TableCell>{consola.fecha_ingreso}</TableCell>
                                         <TableCell>{consola.rols_id}</TableCell>
                                         <TableCell>
-                                            <Edit />
+                                            <Edit className={styles.iconos} onClick={() => seleccionarConsola(consola, 'Editar')} />
                                             &nbsp;&nbsp;&nbsp;
-                                            <Delete />
+                                            <Delete className={styles.iconos} onClick={() => seleccionarConsola(consola, 'Eliminar')} />
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -147,6 +220,17 @@ export default function ColumnUsuarios() {
                         {bodyInsertar}
                     </Modal>
 
+                    <Modal
+                        open={modalEditar}
+                        onClose={abrirCerrarModalEditar}>
+                        {bodyEditar}
+                    </Modal>
+
+                    <Modal
+                        open={modalEliminar}
+                        onClose={abrirCerrarModalEliminar}>
+                        {bodyEliminar}
+                    </Modal>
 
                 </div>
             </div>
