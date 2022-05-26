@@ -34,6 +34,9 @@ export default function ColumnRegistros() {
     const [modalEditar, setModalEditar] = useState(false);
     const [modalEliminar, setModalEliminar] = useState(false);
 
+    const [usuarios, setUsuarios] = useState([]);
+    const [enfermedad, setEnfermedad] = useState([]);
+    const [lotes, setLotes] = useState([]);
 
     const [consolaSeleccionada, setConsolaSeleccionada] = useState({
         id: '',
@@ -53,13 +56,23 @@ export default function ColumnRegistros() {
         }))
     }
 
-
     //FUNCIONES PETICIONES AXIOS
     const peticionGet = async () => {
         axios.get('/registro/index')
             .then(response => {
                 setData(response.data);
-                console.log(response.data);
+            })
+        axios.get('/usuario/index')
+            .then(response => {
+                setUsuarios(response.data);
+            })
+        axios.get('/enfermedad/index')
+            .then(response => {
+                setEnfermedad(response.data);
+            })
+        axios.get('/lote/index')
+            .then(response => {
+                setLotes(response.data);
             })
     }
     useEffect(async () => {
@@ -94,7 +107,7 @@ export default function ColumnRegistros() {
     }
 
     const peticionDelete = async () => {
-        await axios.delete('/usuario/destroy/{id}' + consolaSeleccionada.id)
+        await axios.delete('/registro/destroy/{id}' + consolaSeleccionada.id)
             .then(response => {
                 setData(data.filter(consola => consola.id !== consolaSeleccionada.id));
                 abrirCerrarModalEliminar();
@@ -121,18 +134,36 @@ export default function ColumnRegistros() {
     const bodyInsertar = (
         <div className={styles.modal}>
             <h3>AGREGAR REGISTRO</h3>
-            <TextField name='usuarios_id' className={styles.inputMaterial} label="Usuario" onChange={handleChange} />
+            <select name='usuarios_id' className={styles.inputMaterial} onChange={handleChange}  >
+                <option label='Seleccione el Usuario'  >Seleccione el Usuario</option>
+                {usuarios.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {' ' + elemento.id + ': ' + elemento.nombre}</option>
+                ))}
+            </select>
             <br />
             <TextField name='fecha' className={styles.inputMaterial} label="Fecha" onChange={handleChange} />
+            <br />
+            <select name='lotes_id' className={styles.inputMaterial} onChange={handleChange}  >
+                <option >Seleccione el lote </option>
+                {lotes.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {elemento.nombre}</option>
+                ))}
+            </select>
             <br />
             <TextField name='linea' className={styles.inputMaterial} label="Linea" onChange={handleChange} />
             <br />
             <TextField name='palma' className={styles.inputMaterial} label="Palma" onChange={handleChange} />
             <br />
-            <TextField name='enfermedads_id' className={styles.inputMaterial} label="Enfermedad" onChange={handleChange} />
+            <select name='enfermedads_id' className={styles.inputMaterial} onChange={handleChange}  >
+                <option >Seleccione la Enfermedad</option>
+                {enfermedad.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {' ' + elemento.id + ': ' + elemento.nombre}</option>
+                ))}
+            </select>
             <br />
-            <TextField name='lotes_id' className={styles.inputMaterial} label="Lote" onChange={handleChange} />
-            <br /><br />
             <div align="right">
                 <Button color="primary" onClick={() => peticionPost()} >Insertar</Button>
                 <Button onClick={() => abrirCerrarModalInsertar()} > Cancelar</Button>
@@ -142,18 +173,36 @@ export default function ColumnRegistros() {
     const bodyEditar = (
         <div className={styles.modal}>
             <h3>EDITAR REGISTRO</h3>
-            <TextField name='usuarios_id' className={styles.inputMaterial} label="Usuario" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.usuarios_id} />
+            <select name='usuarios_id' className={styles.inputMaterial} onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.usuarios_id}  >
+                <option label='Seleccione el Usuario'  >Seleccione el Usuario</option>
+                {usuarios.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {' ' + elemento.id + ': ' + elemento.nombre}</option>
+                ))}
+            </select>
             <br />
             <TextField name='fecha' className={styles.inputMaterial} label="Fecha" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.fecha} />
+            <br />
+            <select name='lotes_id' className={styles.inputMaterial} onChange={handleChange}  value={consolaSeleccionada && consolaSeleccionada.lotes_id}>
+                <option >Seleccione el lote </option>
+                {lotes.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {elemento.nombre}</option>
+                ))}
+            </select>
             <br />
             <TextField name='linea' className={styles.inputMaterial} label="Linea" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.linea} />
             <br />
             <TextField name='palma' className={styles.inputMaterial} label="Palma" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.palma} />
             <br />
-            <TextField name='enfermedads_id' className={styles.inputMaterial} label="Enfermedad" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.enfermedads_id} />
+            <select name='enfermedads_id' className={styles.inputMaterial} onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.enfermedads_id} >
+                <option >Seleccione la Enfermedad</option>
+                {enfermedad.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {' ' + elemento.id + ': ' + elemento.nombre}</option>
+                ))}
+            </select>
             <br />
-            <TextField name='lotes_id' className={styles.inputMaterial} label="Lote" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.lotes_id} />
-            <br /><br />
             <div align="right">
                 <Button color="primary" onClick={() => peticionPut()} >Editar</Button>
                 <Button onClick={() => abrirCerrarModalEditar()} > Cancelar</Button>
@@ -170,7 +219,6 @@ export default function ColumnRegistros() {
         </div>
     )
 
-
     return (
         <div>
             <ColumnUsers />
@@ -186,10 +234,10 @@ export default function ColumnRegistros() {
                                 <TableCell>ID</TableCell>
                                 <TableCell>Usuario</TableCell>
                                 <TableCell>Fecha</TableCell>
+                                <TableCell>Lote</TableCell>
                                 <TableCell>Linea</TableCell>
                                 <TableCell>Palma</TableCell>
                                 <TableCell>Enfermedad</TableCell>
-                                <TableCell>Lote</TableCell>
                                 <TableCell>Acciones</TableCell>
                             </TableRow>
                         </TableHead>
@@ -200,10 +248,14 @@ export default function ColumnRegistros() {
                                     <TableCell>{consola.id}</TableCell>
                                     <TableCell>{consola.usuarios_id}</TableCell>
                                     <TableCell>{consola.fecha}</TableCell>
+                                    <TableCell>{(consola.lotes_id === 2) ? 'La Loma' :
+                                                'El mirador '}</TableCell>
                                     <TableCell>{consola.linea}</TableCell>
                                     <TableCell>{consola.palma}</TableCell>
-                                    <TableCell>{consola.enfermedads_id}</TableCell>
-                                    <TableCell>{consola.lotes_id}</TableCell>
+                                    <TableCell>{(consola.enfermedads_id === 1) ? 'Marchitez Letal' :
+                                                (consola.enfermedads_id === 2) ? 'Anillo Rojo' :
+                                                (consola.enfermedads_id === 3) ? 'Germen marrón' :
+                                                'Pudrición de la semilla '}</TableCell>
                                     <TableCell>
                                         <Edit className={styles.iconos} onClick={() => seleccionarConsola(consola, 'Editar')} />
                                         &nbsp;&nbsp;&nbsp;

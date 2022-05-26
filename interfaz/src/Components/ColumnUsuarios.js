@@ -36,8 +36,12 @@ export default function ColumnUsuarios() {
     const [modalEditar, setModalEditar] = useState(false);
     const [modalEliminar, setModalEliminar] = useState(false);
 
+    const [generos, setGeneros] = useState([]);
+    const [rol, setRol] = useState([]);
+    const [cargo, setCargo] = useState([]);
+
     const [consolaSeleccionada, setConsolaSeleccionada] = useState({
-        id:'',
+        id: '',
         nombre: '',
         generos_id: '',
         fecha_nacimiento: '',
@@ -54,16 +58,29 @@ export default function ColumnUsuarios() {
         }))
     }
 
-//FUNCIONES PETICIONES AXIOS
+    //FUNCIONES PETICIONES AXIOS
     const peticioneGet = async () => {
         axios.get('/usuario/index')
             .then(response => {
                 setData(response.data);
             })
+        axios.get('/genero/index')
+            .then(res => {
+                setGeneros(res.data);
+            })
+        axios.get('/rol/index')
+            .then(res => {
+                setRol(res.data);
+            })
+        axios.get('/cargo/index')
+            .then(res => {
+                setCargo(res.data);
+            })
+
     }
     useEffect(async () => {
         await peticioneGet();
-    }, []) 
+    }, [])
 
     const peticionPost = async () => {
         await axios.post('/usuario/store', consolaSeleccionada)
@@ -100,7 +117,7 @@ export default function ColumnUsuarios() {
             })
     }
 
-//FUNCIONES PARA ABRIR Y CERRAR VENTANA    
+    //FUNCIONES PARA ABRIR Y CERRAR VENTANA    
     const abrirCerrarModalInsertar = () => {
         setModalInsertar(!modalInsertar);
     }
@@ -115,22 +132,41 @@ export default function ColumnUsuarios() {
         (caso === 'Editar') ? abrirCerrarModalEditar() : abrirCerrarModalEliminar()
     }
 
-//VENTANAS EMERGENTES
+    //VENTANAS EMERGENTES
     const bodyInsertar = (
         <div className={styles.modal}>
-            <h3>AGREGAR USUARIO</h3> 
+            <h3>AGREGAR USUARIO</h3>
             <TextField name='nombre' className={styles.inputMaterial} label="Nombre" onChange={handleChange} />
             <br />
-            <TextField name='generos_id' className={styles.inputMaterial} label="Genero" onChange={handleChange} />
+            <select name='generos_id' className={styles.inputMaterial} onChange={handleChange}  >
+                <option label='Seleccione el genero'  >Seleccione el genero</option>
+                {generos.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {elemento.nombre}</option>
+                ))}
+            </select>
             <br />
             <TextField name='fecha_nacimiento' className={styles.inputMaterial} label="Fecha de nacimiento" onChange={handleChange} />
+            <br />
+            <select name='cargos_id' className={styles.inputMaterial} onChange={handleChange}  >
+                <option label='Seleccione el cargo'  >Seleccione el cargo</option>
+                {cargo.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {elemento.nombre}</option>
+                ))}
+            </select>
             <br />
             <TextField name='cargos_id' className={styles.inputMaterial} label="cargo" onChange={handleChange} />
             <br />
             <TextField name='fecha_ingreso' className={styles.inputMaterial} label="Fecha ingreso" onChange={handleChange} />
             <br />
-            <TextField name='rols_id' className={styles.inputMaterial} label="Rol" onChange={handleChange} />
-            <br /><br />
+            <select name='rols_id' className={styles.inputMaterial} onChange={handleChange}  >
+                <option label='Seleccione rol'  >Seleccione rol</option>
+                {rol.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {elemento.nombre}</option>
+                ))}
+            </select>
             <div align="right">
                 <Button color="primary" onClick={() => peticionPost()} >Insertar</Button>
                 <Button onClick={() => abrirCerrarModalInsertar()} > Cancelar</Button>
@@ -142,15 +178,32 @@ export default function ColumnUsuarios() {
             <h3>Editar Usuario</h3>
             <TextField name='nombre' className={styles.inputMaterial} label="Nombre" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.nombre} />
             <br />
-            <TextField name='generos_id' className={styles.inputMaterial} label="Genero" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.generos_id} />
-            <br />
+            <select name='generos_id' className={styles.inputMaterial} label="Genero" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.generos_id} >
+                <option disabled >Seleccione el genero</option>
+                {generos.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {elemento.nombre}</option>
+                ))}
+            </select>
             <TextField name='fecha_nacimiento' className={styles.inputMaterial} label="Fecha de nacimiento" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.fecha_nacimiento} />
             <br />
-            <TextField name='cargos_id' className={styles.inputMaterial} label="cargo" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.cargos_id} />
+            <select name='cargos_id' className={styles.inputMaterial} onChange={handleChange}  value={consolaSeleccionada && consolaSeleccionada.cargos_id} >
+                <option label='Seleccione el cargo'  >Seleccione el cargo</option>
+                {cargo.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {elemento.nombre}</option>
+                ))}
+            </select>
             <br />
             <TextField name='fecha_ingreso' className={styles.inputMaterial} label="Fecha ingreso" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.fecha_ingreso} />
             <br />
-            <TextField name='rols_id' className={styles.inputMaterial} label="Rol" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.rols_id} />
+            <select name='rols_id' className={styles.inputMaterial} onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.rols_id} >
+                <option label='Seleccione rol'  >Seleccione rol</option>
+                {rol.map(elemento => (
+                    <option key={elemento.id} value={elemento.id} >
+                        {elemento.nombre}</option>
+                ))}
+            </select>
             <br /><br />
             <div align="right">
                 <Button color="primary" onClick={() => peticionPut()} >Editar</Button>
@@ -168,7 +221,7 @@ export default function ColumnUsuarios() {
         </div>
     )
 
-//RETORNO 
+    //RETORNO 
     return (
         <div>
             <ColumnUsers />
@@ -176,7 +229,7 @@ export default function ColumnUsuarios() {
                 <div>
                     <div className='Titulo'>USUARIOS</div>
                     <div>
-                        <button  className='AgregarBTN' onClick={() => abrirCerrarModalInsertar() }  >AGREGAR</button>
+                        <button className='AgregarBTN' onClick={() => abrirCerrarModalInsertar()}  >AGREGAR</button>
                     </div>
                     <TableContainer>
                         <Table>
@@ -186,7 +239,7 @@ export default function ColumnUsuarios() {
                                     <TableCell>Nombre</TableCell>
                                     <TableCell>Genero</TableCell>
                                     <TableCell>Fecha de nacimiento</TableCell>
-                                    <TableCell>cargo</TableCell>
+                                    <TableCell>Cargo</TableCell>
                                     <TableCell>Fecha ingreso</TableCell>
                                     <TableCell>Rol</TableCell>
                                     <TableCell>Acciones</TableCell>
@@ -198,11 +251,11 @@ export default function ColumnUsuarios() {
                                     <TableRow key={consola.id} >
                                         <TableCell>{consola.id}</TableCell>
                                         <TableCell>{consola.nombre}</TableCell>
-                                        <TableCell>{consola.generos_id}</TableCell>
-                                        <TableCell>{consola.fecha_nacimiento}</TableCell>
-                                        <TableCell>{consola.cargos_id}</TableCell>
+                                        <TableCell>{(consola.generos_id === 1) ? 'Masculino' : 'Femenino'}</TableCell>
+                                        <TableCell>{consola.fecha_nacimiento}</TableCell>                                       
+                                        <TableCell>{(consola.cargos_id === 1) ? 'Supervisor' : (consola.cargos_id === 2) ? 'Monitor' : 'Fumigador'}</TableCell>
                                         <TableCell>{consola.fecha_ingreso}</TableCell>
-                                        <TableCell>{consola.rols_id}</TableCell>
+                                        <TableCell>{(consola.rols_id === 1) ? 'Administrador' : 'Empleado' }</TableCell>
                                         <TableCell>
                                             <Edit className={styles.iconos} onClick={() => seleccionarConsola(consola, 'Editar')} />
                                             &nbsp;&nbsp;&nbsp;

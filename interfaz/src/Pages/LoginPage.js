@@ -39,8 +39,7 @@ export default function Login() {
                 }) 
 
             if(response.data.success === true){
-                localStorage.setItem("userData", JSON.stringify(response.data.data))
-                console.log(response.data);  
+                localStorage.setItem("userData", JSON.stringify(response.data.data)); 
                 setAuth({user, pwd})
                 setUser('');
                 setPwd('');
